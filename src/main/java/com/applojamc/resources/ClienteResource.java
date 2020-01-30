@@ -1,5 +1,6 @@
 package com.applojamc.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.applojamc.domain.Categoria;
 import com.applojamc.domain.Cliente;
+import com.applojamc.dto.CategoriaDTO;
 import com.applojamc.dto.ClienteDTO;
+import com.applojamc.dto.ClienteNewDTO;
 import com.applojamc.services.ClienteService;
 
 @RestController
@@ -32,7 +37,15 @@ public class ClienteResource {
 		Cliente obj = serv.find(id);
 		return ResponseEntity.ok(obj);
 	}
-
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
+		Cliente obj = serv.fromDTO(objDto);
+		obj = serv.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@PathVariable Integer id, @Valid @RequestBody ClienteDTO objDto) {
 		Cliente obj = serv.fromDTO(objDto);
