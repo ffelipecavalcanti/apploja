@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.applojamc.domain.Categoria;
 import com.applojamc.domain.Cliente;
-import com.applojamc.dto.CategoriaDTO;
 import com.applojamc.dto.ClienteDTO;
 import com.applojamc.dto.ClienteNewDTO;
 import com.applojamc.services.ClienteService;
