@@ -20,42 +20,42 @@ import com.applojamc.services.exceptions.ObjectNotFoundException;
 public class CategoriaService {
 
 	@Autowired
-	private CategoriaRepository repo;
+	private CategoriaRepository categoriaRepository;
 
 	public Categoria find(Integer id) {
-		Optional<Categoria> obj = repo.findById(id);
+		Optional<Categoria> obj = categoriaRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 
 	public Categoria insert(Categoria obj) {
 		obj.setId(null); // << garante que vai ser um insert e não um update
-		return repo.save(obj);
+		return categoriaRepository.save(obj);
 	}
 
 	public Categoria update(Categoria obj) {
 		Categoria newObj = find(obj.getId());
 		updateData(newObj, obj); 
-		return repo.save(newObj);
+		return categoriaRepository.save(newObj);
 	}
 
 	public void delete(Integer id) {
 		find(id); 
 		try {
-			repo.deleteById(id);
+			categoriaRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir uma Categoria que possui produto(s)"); 
 		}
 	}
 
 	public List<Categoria> findAll() {
-		return repo.findAll(); 
+		return categoriaRepository.findAll(); 
 	}
 
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy); 
-		return repo.findAll(pageRequest);
+		return categoriaRepository.findAll(pageRequest);
 	}
 	
 	public Categoria fromDTO(CategoriaDTO objDto) {
