@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.applojamc</groupId>
-	<artifactId>apploja</artifactId>
+	<artifactId>apploja-ws</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>apploja</name>
+	<name>apploja-ws</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
