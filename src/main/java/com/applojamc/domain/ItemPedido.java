@@ -14,7 +14,7 @@ public class ItemPedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@JsonIgnore // >> Este item nao vai serializar produto e pedido
+	@JsonIgnore 
 	@EmbeddedId
 	private ItemPedidoPK id = new ItemPedidoPK();
 
