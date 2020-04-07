@@ -16,11 +16,14 @@ import org.springframework.stereotype.Service;
 import com.applojamc.domain.Cidade;
 import com.applojamc.domain.Cliente;
 import com.applojamc.domain.Endereco;
+import com.applojamc.domain.enums.Perfil;
 import com.applojamc.domain.enums.TipoCliente;
 import com.applojamc.dto.ClienteDTO;
 import com.applojamc.dto.ClienteNewDTO;
 import com.applojamc.repositories.ClienteRepository;
 import com.applojamc.repositories.EnderecoRepository;
+import com.applojamc.security.UserSS;
+import com.applojamc.services.exceptions.AuthorizationException;
 import com.applojamc.services.exceptions.DataIntegrityException;
 import com.applojamc.services.exceptions.ObjectNotFoundException;
 
@@ -37,6 +40,12 @@ public class ClienteService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	public Cliente find(Integer id) {
+	
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Cliente> obj = clienteRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
